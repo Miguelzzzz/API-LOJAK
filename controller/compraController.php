@@ -1,59 +1,55 @@
 <?php
-//incluir o arquivo com as funções do Banco de Dados
-include_once("../model/produtocontroller.php");
-//criando um objeto da classe AgendaPessoal
-$produto = new produto;
-//Verificar se existe o campo Ação
+
+include_once("../model/compra.php");
+
+$compra = new compra;
+
 if (isset($_REQUEST["acao"])){
-switch ($_REQUEST["acao"]) {
-case 'cadastrar':
-//enviando os valores vindos do Android
-$produto->nomeproduto = $_POST['nomeproduto'];
-$produto->pagamento = $_POST['pagamento'];
-$produto->email = $_POST['email'];
-$produto->codproduto = $_POST['codproduto'];
-$produto->vendedora = $_POST['vendedora'];
-$produto->valor = $_POST['valor'];
+    switch ($_REQUEST["acao"]) {
+    case 'cadastrar':
 
+    $compra->nomeProduto = $_POST['nomeProduto'];
+    $compra->vendedora = $_POST['vendedora'];
+    $compra->formaPagamento = $_POST['formaPagamento'];
+    $compra->valor = $_POST['valor'];
+    $compra->codCliente = $_POST['codCliente'];
 
+    $compra->cadastrar();
+    echo "ok";
+    break;
 
-//chamando o método cadastrar
-$produto->cadastrar();
+    case 'atualizar':
+    $compra->nomeProduto = $_POST['nomeProduto'];
+    $compra->vendedora = $_POST['vendedora'];
+    $compra->formaPagamento = $_POST['formaPagamento'];
+    $compra->valor = $_POST['valor'];
+    $compra->codCompra = $_POST['codCompra'];
+    $compra->codCliente = $_POST['codCliente'];
 
-//mensagem de confirmação 
-echo "ok";
-break;
-case 'atualizar':
-    $produto->nomeproduto = $_POST['nomeproduto'];
-$produto->pagamento = $_POST['pagamento'];
-$produto->email = $_POST['email'];
-$produto->codproduto = $_POST['codproduto'];
-$produto->vendedora = $_POST['vendedora'];
-$produto->valor = $_POST['valor'];
-$cliente->atualizar();
-echo "ok";
-break;
+    $compra->atualizar();
+    echo "ok";
+    break;
 
-case 'excluir':
-$produto->codproduto = $_POST['codproduto'];
-$produto->excluir();
-echo "ok";
-break;
+    case 'excluir':
+    $compra->codCompra = $_POST['codCompra'];
+    $compra->excluir();
+    echo "ok";
+    break;
 
-case 'consultar_json':
-echo json_encode($produto->consultar());
-break;
+    case 'consultar_json':
+    echo json_encode($compra->consultar());
+    break;
 
-case 'retorna_cod':
-$produto->codproduto = $_POST['codproduto'];
-echo json_encode($produto->retornarDados());
-break;
+    case 'retorna_cod':
+    $compra->codCompra = $_POST['codCompra'];
+    echo json_encode($compra->retornarDados());
+    break;
 
-case 'retorna_nome':
-$produto->nomeproduto = $_POST['nomeproduto'];
-echo json_encode($produto->retornarDadosNome());
-break;
-
+    case 'retorna_nome':
+    $compra->nomeProduto = $_POST['nomeProduto'];
+    echo json_encode($compra->retornarDadosNome());
+    break;
+    }
 }
-}
+
 ?>

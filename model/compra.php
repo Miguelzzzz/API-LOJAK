@@ -1,121 +1,112 @@
 <?php
 
-    class produto implements JsonSerializable{
+    class compra implements JsonSerializable{
 
-    //atributos da classe
-    private $nomeproduto;
-    private $pagamento;
-    private $email;
-    private $codproduto;
+    private $nomeProduto;
     private $vendedora;
+    private $formaPagamento;
     private $valor;
+    private $codCompra;
+    private $codCliente;
 
+    function jsonSerialize(): mixed{
 
-
-    //metodo para gerar o json
-    function jsonSerialize(){
-
-    return
-        [
-            'nomeproduto'    => $this->nomeproduto,
-            'pagamento'      => $this->pagamento,
-            'email'     => $this->email,
-            'codproduto'     => $this->codproduto,
-            'vendedora'     => $this->vendedora,
-            'valor'     => $this->valor;
-
-
-        ];
+    return array(
+            'nomeProduto'    => $this->nomeProduto,
+            'vendedora'      => $this->vendedora,
+            'formaPagamento' => $this->formaPagamento,
+            'valor'          => $this->valor,
+            'codCompra'      => $this->codCompra,
+            'codCliente'     => $this->codCliente,
+        );
     }
 
-    //Metodos Get e Set
-    //Metodos Magicos
-
     function __get($atributo){
-        return $this->atributo;
+        return $this->$atributo;
     }
 
     function __set($atributo, $value){
         $this->$atributo = $value;
     }
-    
-    //acessar o banco de dados
+
     private $con;
-        function __construct(){
-            include_once("conexao.php");
-            $classe_con = new Conexao();
-            $this->con = $classe_con->Conectar();
+
+    function __construct() {
+        include_once("conexao.php");
+        $classe_con = new Conexao();
+        $this->con = $classe_con->Conectar();
     }
 
     function cadastrar(){
-        $comandoSql = "insert into produto (nomeproduto, pagamento, email,codproduto,vendedora,valor) values (?,?,?,?,?,?)";
-        $valores = array($this->nome, $this->pagamento, $this->email, $this->codproduto, $this->vendedora, $this->valor);
+        $comandoSql = "insert into tbCompra (nomeProduto, vendedora, formaPagamento, valor, codCliente) values (?,?,?,?,?)";
+        $valores = array($this->nomeProduto, $this->vendedora, $this->formaPagamento, $this->valor, $this->codCliente);
         $exec = $this->con->prepare($comandoSql);
         $exec->execute($valores);
     }
 
     function atualizar(){
-        $comandoSql = "update produto set nome = ?, pagamento = ?, email = ?, vendedora, valor = ? = ? where codproduto = ?";
-        $valores = array($this->nome, $this->pagamento, $this->email, $this->codproduto, $this->vendedora, $this->valor);
+        $comandoSql = "update tbCompra set nomeProduto = ?, vendedora = ?, formaPagamento = ?, valor =?, codCliente = ? where codCompra = ?";
+        $valores = array($this->nomeProduto, $this->vendedora, $this->formaPagamento, $this->valor, $this->codCliente, $this->codCompra);
         $exec = $this->con->prepare($comandoSql);
         $exec->execute($valores);
     }
 
     function excluir(){
-        $comandoSql = "delete from produto where codproduto = ?";
-        $valores = array($this->codigo);
+        $comandoSql = "delete from tbCompra where codCompra = ?";
+        $valores = array($this->codCompra);
         $exec = $this->con->prepare($comandoSql);
         $exec->execute($valores);
     }
 
     function consultar(){
-        $comandoSql = "select * from produto";
+        $comandoSql = "select * from tbCompra";
         $exec = $this->con->prepare($comandoSql);
         $exec->execute();
         $dados = array();
-    foreach ($exec->fetchAll() as $value) {
-        $produto = new produto;
-        $produto->nome = $value["nomeproduto"];
-        $produto->telefone = $value["pagamento"];
-        $produto->email = $value["email"];
-        $produto->codproduto = $value["codproduto"];
-        $produto->vendedora = $value["vendedora"];
-        $produto->valor = $value["valor"];
-        $dados[] = $produto;
-    }
+
+        foreach ($exec->fetchAll() as $value) {
+            $compra = new compra;
+            $compra->nomeProduto = $value["nomeProduto"];
+            $compra->vendedora = $value["vendedora"];
+            $compra->formaPagamento = $value["formaPagamento"];
+            $compra->valor = $value["valor"];
+            $compra->codCliente = $value["codCliente"];
+            $compra->codCompra = $value["codCompra"];
+            $dados[] = $compra;
+        }
         return $dados;
     }
 
     function retornarDados(){
-        $comandoSql = "select * from produto where codproduto = ?";
-        $valores = array($this->codproduto);
+        $comandoSql = "select * from tbCompra where codCompra = ?";
+        $valores = array($this->codCompra);
         $exec = $this->con->prepare($comandoSql);
         $exec->execute($valores);
         $value = $exec->fetch();
-        $produto = new produto;
-        $produto->nome = $value["nomeproduto"];
-        $produto->telefone = $value["pagamento"];
-        $produto->email = $value["email"];
-        $produto->codproduto = $value["codproduto"];
-        $produto->vendedora = $value["vendedora"];
-        $produto->valor = $value["valor"];
-        return $produto;
+        $compra = new compra;
+        $compra->nomeProduto = $value["nomeProduto"];
+        $compra->vendedora = $value["vendedora"];
+        $compra->formaPagamento = $value["formaPagamento"];
+        $compra->valor = $value["valor"];
+        $compra->codCliente = $value["codCliente"];
+        $compra->codCompra = $value["codCompra"];
+        return $compra;
     }
 
     function retornarDadosNome(){
-            $comandoSql = "select * from produto where nomeproduto = ?";
-            $valores = array($this->nome);
+            $comandoSql = "select * from tbCompra where nomeProduto = ?";
+            $valores = array($this->nomeProduto);
             $exec = $this->con->prepare($comandoSql);
             $exec->execute($valores);
             $value = $exec->fetch();
-            $produto = new produto;
-             $produto->nome = $value["nomeproduto"];
-            $produto->telefone = $value["pagamento"];
-            $produto->email = $value["email"];
-            $produto->codproduto = $value["codproduto"];
-            $produto->vendedora = $value["vendedora"];
-            $produto->valor = $value["valor"];
-            return $produto;
+            $compra = new compra;
+            $compra->nomeProduto = $value["nomeProduto"];
+            $compra->vendedora = $value["vendedora"];
+            $compra->formaPagamento = $value["formaPagamento"];
+            $compra->valor = $value["valor"];
+            $compra->codCliente = $value["codCliente"];
+            $compra->codCompra = $value["codCompra"];
+            return $compra;
         }   
     }
 ?>

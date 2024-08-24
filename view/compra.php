@@ -23,11 +23,11 @@ include_once("../controller/compraController.php");
 					<form method="POST" action="?acao=cadastrar">
 						<div class="form-group">
 							<label>Nome produto: </label>
-							<input type="text" name="nome" class="form-control" required>
+							<input type="text" name="nomeProduto" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Vendedora: </label>
-							<input type="text" name="vendedor" class="form-control" required>
+							<input type="text" name="vendedora" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Forma de Pagamento: </label>
@@ -35,7 +35,11 @@ include_once("../controller/compraController.php");
 						</div>
 						<div class="form-group">
 							<label>Valor: </label>
-							<input type="number" name="valor" class="form-control" max="9" required>
+							<input type="text" name="valor" class="form-control" maxlength="9" required>
+						</div>
+						<div class="form-group">
+							<label>ID do comprador:</label>
+							<input type="number" name="codCliente" class="form-control" minlength="1" required>
 						</div>
 						<input type="submit" class="btn btn-primary" value="Cadastrar">
 					</form>
@@ -47,11 +51,11 @@ include_once("../controller/compraController.php");
 					<form method="POST" action="?acao=atualizar">
 						<div class="form-group">
 							<label>Nome produto: </label>
-							<input type="text" name="nome" class="form-control" required>
+							<input type="text" name="nomeProduto" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Vendedora: </label>
-							<input type="text" name="vendedor" class="form-control" required>
+							<input type="text" name="vendedora" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Forma de Pagamento: </label>
@@ -59,7 +63,11 @@ include_once("../controller/compraController.php");
 						</div>
 						<div class="form-group">
 							<label>Valor: </label>
-							<input type="number" name="valor" class="form-control" max="9" required>
+							<input type="text" name="valor" class="form-control" maxlength="9" required>
+						</div>
+						<div class="form-group">
+							<label>ID do comprador:</label>
+							<input type="number" name="codCliente" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Código:</label>
@@ -87,7 +95,7 @@ include_once("../controller/compraController.php");
 					<form method="POST" action="?acao=retorna_nome">
 						<div class="form-group">
 							<label>Nome produto: </label>
-							<input type="text" name="nome" class="form-control" required>
+							<input type="text" name="nomeProduto" class="form-control" required>
 						</div>
 						<input type="submit" class="btn btn-primary" value="Consultar">
 					</form>

@@ -21,6 +21,6 @@ create table tbCompra (
 ) default charset = utf8;
 
 -- select * from tbCliente;
--- select * from tbProduto;
+-- select * from tbCompra;
 
 -- drop database LOJAK;
